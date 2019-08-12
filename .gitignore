@@ -3,3 +3,11 @@
 ################################################################################
 
 /CB/CB.Client/bin/Debug/netstandard2.0/dist/_framework/_bin
+/CB/CB.Client/obj
+/.vs
+/CB/.vs/CB
+/CB/CB.Server/bin/Debug/netcoreapp3.0
+/CB/CB.Server/obj
+/CB/CB.Shared/obj
+/CB/CB.Shared/bin/Debug/netstandard2.0
+/CB/CB.Client/bin/Debug/netstandard2.0
