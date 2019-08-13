@@ -1,45 +1,46 @@
 ﻿@page "/db"
 @using CB.Shared
+@using System.Data
 @inject HttpClient Http
 <h1>DB</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
-@*<InputCheckbox @bind-="dBLinks"></InputCheckbox>*@
-@if (dBLinks == null)
+@if (dataSet == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>DB</th>
-                <th>IP</th>
-                <th>UserName</th>
-                <th>PWD</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in dBLinks)
-            {
+    @foreach (CBTable tb in dataSet)
+    {
+        <p >@tb.TableName</p>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@forecast.Name</td>
-                    <td>@forecast.DBName</td>
-                    <td>@forecast.IP</td>
-                    <td>@forecast.UserName</td>
-                    <td>@forecast.PWD</td>
+                    @foreach (CBDataColumn column in tb.Columns)
+                    {
+                        <th>@column.Name</th>
+                    }
+                    </tr>
+            </thead>
+            <tbody>
+                @foreach (CBDataRow row in tb.DataRows)
+                {
+                <tr>
+                    @foreach (Cell cell in row.Cells)
+                    {
+                        <th>@cell.Value</th>
+                    }
                 </tr>
-            }
-        </tbody>
-    </table>
+                }
+            </tbody>
+        </table>
+    }
 }
 @code {
-    DBLink[] dBLinks;
-    DBLink SelectDBLink = new DBLink { Name = "aaaaa" };
+    CBTable[] dataSet;
     protected override async Task OnInitAsync()
     {
-        dBLinks = await Http.GetJsonAsync<DBLink[]>("dbsettings");
+        dataSet = await Http.GetJsonAsync<CBTable[]>("dbsettings");
     }
 }
